@@ -392,3 +392,84 @@ function verifyEmail($userId, $code) {
         return ['success' => false, 'error' => 'Tasdiqlashda xatolik yuz berdi'];
     }
 }
+
+/**
+ * Email mavjudligini tekshirish
+ */
+function emailExists($email) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch() !== false;
+    } catch (Exception $e) {
+        error_log("emailExists error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Foydalanuvchini ID bo'yicha olish
+ */
+function getUserById($userId) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id, name, email, phone, role, created_at FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        error_log("getUserById error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Foydalanuvchini email bo'yicha olish
+ */
+function getUserByEmail($email) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id, name, email, password, role FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        error_log("getUserByEmail error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Foydalanuvchini ro'yxatdan o'tkazish (soddalashtirilgan)
+ */
+function registerUser($name, $surname, $phone, $email, $password) {
+    try {
+        $pdo = getDBConnection();
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+        
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password, role, created_at) VALUES (?, ?, ?, ?, 'user', NOW())");
+        $stmt->execute([$name . ' ' . $surname, $email, $phone, $passwordHash]);
+        
+        return $pdo->lastInsertId();
+    } catch (Exception $e) {
+        error_log("registerUser error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Parolni tiklash tokenini saqlash
+ */
+function saveResetToken($userId, $token) {
+    try {
+        $pdo = getDBConnection();
+        $expires = date('Y-m-d H:i:s', time() + 3600); // 1 soat
+        
+        $stmt = $pdo->prepare("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?");
+        $stmt->execute([$token, $expires, $userId]);
+        
+        return true;
+    } catch (Exception $e) {
+        error_log("saveResetToken error: " . $e->getMessage());
+        return false;
+    }
+}

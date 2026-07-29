@@ -257,3 +257,102 @@ function renderStatusBadge($status) {
     $config = $statuses[$status] ?? ['text' => $status, 'class' => ''];
     return '<span class="badge ' . e($config['class']) . '">' . e($config['text']) . '</span>';
 }
+
+/**
+ * Xizmat kategoriyalarini olish
+ */
+function getServiceCategories() {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->query("SELECT id, name FROM service_categories WHERE status = 'active' ORDER BY sort_order ASC");
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        error_log("getServiceCategories error: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Barcha xizmatlarni olish
+ */
+function getAllServices() {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->query("
+            SELECT s.*, sc.name as category_name 
+            FROM services s 
+            LEFT JOIN service_categories sc ON s.category_id = sc.id 
+            WHERE s.status = 'active' 
+            ORDER BY s.sort_order ASC, s.created_at DESC
+        ");
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        error_log("getAllServices error: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Ommabop xizmatlarni olish
+ */
+function getServices($limit = 6) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT s.*, sc.name as category_name 
+            FROM services s 
+            LEFT JOIN service_categories sc ON s.category_id = sc.id 
+            WHERE s.status = 'active' AND s.is_popular = 1
+            ORDER BY s.sort_order ASC, s.created_at DESC 
+            LIMIT ?
+        ");
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        error_log("getServices error: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Top shifokorlarni olish
+ */
+function getTopDoctors($limit = 4) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT id, full_name, specialty, experience_years, photo 
+            FROM doctors 
+            WHERE status = 'active' AND is_top = 1 
+            ORDER BY sort_order ASC, created_at DESC 
+            LIMIT ?
+        ");
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        error_log("getTopDoctors error: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Tasdiqlangan sharhlarni olish
+ */
+function getApprovedReviews($limit = 6) {
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT r.*, u.name as patient_name 
+            FROM reviews r 
+            LEFT JOIN users u ON r.user_id = u.id 
+            WHERE r.status = 'approved' 
+            ORDER BY r.created_at DESC 
+            LIMIT ?
+        ");
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        error_log("getApprovedReviews error: " . $e->getMessage());
+        return [];
+    }
+}

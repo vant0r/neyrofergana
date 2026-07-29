@@ -1,56 +1,26 @@
-```
-# Environment and config files
-.env
-.env.local
-.env.*
-
-# Logs
-*.log
+```gitignore
+# Compiled and build artifacts
+*.pyc
+__pycache__/
 
 # Dependencies
 vendor/
-node_modules/
+composer.lock
 
-# Build artifacts
-dist/
-build/
-*.o
-*.obj
-*.so
-*.dll
-*.exe
+# Environment
+.env
+.env.local
+*.env.*
 
-# Editor/IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+# Logs and temp files
+*.log
 *.tmp
 
-# System files
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
 .DS_Store
 Thumbs.db
-
-# Cache directories
-.cache/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
 ```

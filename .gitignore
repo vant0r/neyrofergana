@@ -4,9 +4,18 @@
 __pycache__/
 
 # Dependencies
-node_modules/
-venv/
 .venv/
+venv/
+node_modules/
+pip-log.txt
+pipenv.lock
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Environment
 .env
 .env.local
 .env.*
@@ -14,11 +23,6 @@ venv/
 # Editors
 .vscode/
 .idea/
-
-# Logs and temp files
-*.log
-*.tmp
-*.swp
 
 # OS generated files
 .DS_Store
@@ -29,40 +33,17 @@ coverage/
 htmlcov/
 .coverage
 
-# Distribution / packaging
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+
+# Web specific
 dist/
 build/
-*.egg-info/
-
-# Testing
-.pytest_cache/
-.mypy_cache/
-
-# Gradle
-.gradle/
-target/
-
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
+coverage/
+.nyc_output/
 ```

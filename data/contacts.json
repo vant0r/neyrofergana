@@ -1,0 +1,18 @@
+{
+  "phones": ["+998712000000", "+998901234567"],
+  "email": "info@clinic.uz",
+  "work_hours": {
+    "monday_friday": "08:00 - 18:00",
+    "saturday": "09:00 - 14:00",
+    "sunday": "Dam olish"
+  },
+  "address": "Toshkent shahar, Chilonzor tumani, 12-kvartal",
+  "landmark": "Chilonzor metro bekati yonida",
+  "map_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.0!2d69.0!3d41.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAwJzAwLjAiTiA2OcKwMDAnMDAuMCJF!5e0!3m2!1suz!2s!4v1600000000000",
+  "social_media": {
+    "telegram": "https://t.me/shifoklinikasi",
+    "instagram": "https://instagram.com/shifoklinikasi",
+    "facebook": "https://facebook.com/shifoklinikasi",
+    "youtube": ""
+  }
+}

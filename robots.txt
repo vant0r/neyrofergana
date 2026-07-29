@@ -1,0 +1,17 @@
+# Robots.txt - SEO uchun
+User-agent: *
+Allow: /
+
+# Admin panelni indeksatsiya qilmaslik
+Disallow: /admin/
+Disallow: /user/
+Disallow: /webapp/
+Disallow: /api/
+Disallow: /includes/
+Disallow: /cron/
+Disallow: /sql/
+Disallow: /data/
+Disallow: /uploads/
+
+# Sitemap
+Sitemap: https://shifoklinikasi.uz/sitemap.xml

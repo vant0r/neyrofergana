@@ -1,0 +1,17 @@
+{
+  "site_name": "Shifo Klinikasi",
+  "site_description": "Zamonaviy tibbiyot klinikasi - sifatli xizmat va malakali shifokorlar",
+  "site_keywords": "klinika, shifokor, tibbiyot, davolash, diagnostika, stomatologiya",
+  "clinic_opened_year": 2015,
+  "smtp_host": "smtp.gmail.com",
+  "smtp_port": 587,
+  "smtp_username": "",
+  "smtp_password": "",
+  "smtp_encryption": "tls",
+  "telegram_bot_token": "",
+  "telegram_webhook_url": "",
+  "bank_name": "",
+  "bank_account": "",
+  "inn": "",
+  "mfo": ""
+}

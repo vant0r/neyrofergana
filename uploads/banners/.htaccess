@@ -1,0 +1,1 @@
+# banners papkasi uchun xavfsizlik\nOptions -Indexes\n<FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|html|htm|shtml|sh|cgi|exe|bat|cmd|com|pif|vbs|vbe|js|jse|wsf|wsh|msc|msp|hta|scr)$">\n    Deny from all\n    <IfModule mod_authz_core.c>\n        Require all denied\n    </IfModule>\n</FilesMatch>

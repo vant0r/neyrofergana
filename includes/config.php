@@ -114,25 +114,38 @@ function getAds() {
 // Media URL larini olish
 function getLogoUrl($type = 'main') {
     $settings = getSettings();
-    $logoField = $type === 'white' ? 'logo_white' : 'logo_main';
     
-    // DB dan logo nomini olish (keyinchalik amalga oshiriladi)
-    $logoName = ''; // Placeholder
-    
-    if (!empty($logoName)) {
-        return SITE_URL . '/uploads/logo/' . $logoName;
+    // Agar settings da logo saqlangan bo'lsa
+    if ($type === 'white' && !empty($settings['logo_white'])) {
+        return SITE_URL . '/uploads/logo/' . $settings['logo_white'];
     }
     
-    return SITE_URL . '/uploads/logo/default-logo.png';
+    if ($type === 'main' && !empty($settings['logo_main'])) {
+        return SITE_URL . '/uploads/logo/' . $settings['logo_main'];
+    }
+    
+    // Default logo - yuklangan fayl
+    return SITE_URL . '/uploads/logo/logo.png';
 }
 
 function getFaviconUrl() {
     $settings = getSettings();
-    $faviconName = ''; // Placeholder
     
-    if (!empty($faviconName)) {
-        return SITE_URL . '/uploads/favicon/' . $faviconName;
+    if (!empty($settings['favicon'])) {
+        return SITE_URL . '/uploads/logo/' . $settings['favicon'];
     }
     
-    return SITE_URL . '/uploads/favicon/default-favicon.png';
+    // Default favicon - logo dan foydalanamiz
+    return SITE_URL . '/uploads/logo/logo.png';
+}
+
+function getBannerUrl() {
+    $settings = getSettings();
+    
+    if (!empty($settings['banner_main'])) {
+        return SITE_URL . '/uploads/banners/' . $settings['banner_main'];
+    }
+    
+    // Default banner - yuklangan fayl
+    return SITE_URL . '/uploads/banners/hero-bg.jpg';
 }

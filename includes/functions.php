@@ -684,6 +684,50 @@ function getLogoUrl($type = 'main') {
         case 'mobile':
             return $settings['logo_mobile_url'] ?? $settings['logo_url'];
         default:
-            return $settings['logo_url'] ?? '/uploads/logo/main.png';
+            // Yangi yuklangan logo
+            if (file_exists(__DIR__ . '/../uploads/logo/logo.png')) {
+                return '/uploads/logo/logo.png';
+            }
+            return $settings['logo_url'] ?? '/uploads/logo/logo.png';
     }
+}
+
+/**
+ * Banner URL ni olish
+ */
+function getBannerUrl($position = 'main') {
+    $settings = getSettings();
+    
+    switch ($position) {
+        case 'hero':
+        case 'main':
+            // Yangi yuklangan banner
+            if (file_exists(__DIR__ . '/../uploads/banners/banner-main.jpg')) {
+                return '/uploads/banners/banner-main.jpg';
+            }
+            return $settings['banner_main_url'] ?? '/uploads/banners/banner-main.jpg';
+        case 'about':
+            return $settings['banner_about_url'] ?? '/uploads/banners/about-bg.jpg';
+        case 'services':
+            return $settings['banner_services_url'] ?? '/uploads/banners/services-bg.jpg';
+        case 'doctors':
+            return $settings['banner_doctors_url'] ?? '/uploads/banners/doctors-bg.jpg';
+        case 'contact':
+            return $settings['banner_contact_url'] ?? '/uploads/banners/contact-bg.jpg';
+        default:
+            return '/uploads/banners/banner-main.jpg';
+    }
+}
+
+/**
+ * Orqa fon rasmini olish
+ */
+function getBackgroundUrl($page = 'default') {
+    // Default orqa fon - yangi yuklangan rasm
+    if (file_exists(__DIR__ . '/../uploads/banners/banner-main.jpg')) {
+        return '/uploads/banners/banner-main.jpg';
+    }
+    
+    $settings = getSettings();
+    return $settings['background_url'] ?? '/uploads/banners/banner-main.jpg';
 }

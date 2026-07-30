@@ -1,8 +1,16 @@
-# Apache konfiguratsiyasi
-# URL rewriting, xavfsizlik headerlari
+# ========================================
+# NeuroFergana Tibbiy Klinikasi
+# Asosiy .htaccess fayli
+# URL rewriting, xavfsizlik, optimallashtirish
+# ========================================
 
 # Mod_rewrite yoqish
 RewriteEngine On
+RewriteBase /
+
+# ========================================
+# HTTPS VA WWW SOZLAMALARI
+# ========================================
 
 # HTTPS ga majburiy yo'naltirish (production da ishlatish)
 # RewriteCond %{HTTPS} off
@@ -12,16 +20,32 @@ RewriteEngine On
 # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
-# Xavfsizlik headerlari
+# ========================================
+# XAVFSIZLIK HEADERLARI
+# ========================================
 <IfModule mod_headers.c>
+    # Clickjacking himoyasi
     Header set X-Frame-Options "SAMEORIGIN"
+    
+    # MIME sniffing himoyasi
     Header set X-Content-Type-Options "nosniff"
+    
+    # XSS himoyasi
     Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer siyosati
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy
     Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'self';"
+    
+    # HSTS (HTTPS Strict Transport Security)
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
-# Gzip kompressiya
+# ========================================
+# GZIP KOMPRESSIYA
+# ========================================
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html
     AddOutputFilterByType DEFLATE text/css
@@ -29,11 +53,17 @@ RewriteEngine On
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/json
     AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE text/plain
 </IfModule>
 
-# Browser caching
+# ========================================
+# BROWSER CACHING
+# ========================================
 <IfModule mod_expires.c>
     ExpiresActive On
+    
+    # Rasmlar
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
@@ -41,31 +71,118 @@ RewriteEngine On
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
     ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS va JS
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Boshqa fayllar
     ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/json "access plus 1 week"
     ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    
+    # HTML (kamroq cache)
+    ExpiresByType text/html "access plus 1 hour"
 </IfModule>
 
-# Fayl yuklash xavfsizligi
-<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps)$">
-    Deny from all
+# ========================================
+# FAYL XAVFSIZLIGI
+# ========================================
+
+# PHP fayllarini to'g'ridan-to'g'ri yuklashni taqiqlash
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|inc)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
-# Uploads papkasi uchun xavfsizlik
+# Xavfli fayl formatlarini taqiqlash
+<FilesMatch "\.(exe|bat|cmd|com|pif|vbs|vbe|js|jse|wsf|wsh|msc|msp|hta|scr|sh)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Uploads papkasida PHP ishlashni taqiqlash
 <IfModule mod_php.c>
     <Directory "/uploads">
         php_flag engine off
     </Directory>
 </IfModule>
 
-# Directory listing o'chirish
+# Admin papkasi uchun qo'shimcha himoya
+<IfModule mod_authz_core.c>
+    <Directory "/admin">
+        Require all granted
+    </Directory>
+</IfModule>
+
+# ========================================
+# DIRECTORY LISTING
+# ========================================
 Options -Indexes
+Options +FollowSymLinks
+
+# ========================================
+# DEFAULT SOZLAMALAR
+# ========================================
 
 # Default charset
 AddDefaultCharset UTF-8
 
-# Error pages
+# Default index fayllar
+DirectoryIndex index.php index.html
+
+# ========================================
+# ERROR SAHIFALARI
+# ========================================
+ErrorDocument 400 /400.php
+ErrorDocument 401 /401.php
+ErrorDocument 403 /403.php
 ErrorDocument 404 /404.php
 ErrorDocument 500 /500.php
-ErrorDocument 403 /403.php
+ErrorDocument 502 /502.php
+ErrorDocument 503 /503.php
+
+# ========================================
+# URL REWRITING QOIDALARI
+# ========================================
+
+# .git papkasini yashirish
+RedirectMatch 404 /\.git
+
+# Backup fayllarni yashirish
+<FilesMatch "\.(bak|backup|old|tmp|swp|log)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ========================================
+# PERFORMANCE OPTIMALLASHTIRISH
+# ========================================
+
+# Keep-Alive yoqish
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
+
+# ETag o'chirish (ba'zi hollarda foydali)
+# FileETag None
+
+# Last-Modified header
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>

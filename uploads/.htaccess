@@ -1,0 +1,60 @@
+# Uploads papkasi uchun xavfsizlik sozlamalari
+# Fayl yuklash va ko'rishni himoya qilish
+
+# Directory listing ni o'chirish
+Options -Indexes
+
+# PHP va boshqa skriptlarni ishga tushirishni taqiqlash
+<FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|html|htm|shtml|sh|cgi)$">
+    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# Xavfli fayl formatlarini yuklashni taqiqlash
+<FilesMatch "\.(exe|bat|cmd|com|pif|vbs|vbe|js|jse|wsf|wsh|msc|msp|hta|scr)$">
+    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# Faqat ruxsat etilgan formatlarga ruxsat berish
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|pdf|svg)$">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</FilesMatch>
+
+# MIME type to'g'riligini tekshirish
+<IfModule mod_mime.c>
+    AddType image/jpeg jpg jpeg
+    AddType image/png png
+    AddType image/gif gif
+    AddType image/webp webp
+    AddType application/pdf pdf
+    AddType image/svg+xml svg
+</IfModule>
+
+# Xavfsizlik headerlari
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Browser caching (statik fayllar uchun)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 week"
+    ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# Maxsus xato sahifalari
+ErrorDocument 403 /404.php
+ErrorDocument 404 /404.php

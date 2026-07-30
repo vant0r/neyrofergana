@@ -1,14 +1,11 @@
-```
+```gitignore
 # Compiled and build artifacts
 *.pyc
 __pycache__/
 
 # Dependencies
-.venv/
-venv/
+vendor/
 node_modules/
-pip-log.txt
-pipenv.lock
 
 # Logs and temp files
 *.log
@@ -18,32 +15,14 @@ pipenv.lock
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
 # Editors
 .vscode/
 .idea/
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Python specific
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-.eggs/
-
-# Web specific
-dist/
-build/
-coverage/
-.nyc_output/
+# Web application specific
+webapp/*.log
+webapp/tmp/
+webapp/cache/
 ```

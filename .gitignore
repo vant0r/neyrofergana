@@ -1,11 +1,8 @@
 ```
-# Uploads directory - likely contains user-generated content
-uploads/
-
-# Environment files
+# Environment and config
 .env
 .env.local
-*.env.*
+.env.*
 
 # Logs
 *.log
@@ -14,34 +11,41 @@ uploads/
 *.tmp
 *.swp
 
-# Editor/IDE files
-.vscode/
-.idea/
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
 # Cache directories
 __pycache__/
 *.pyc
-.mypy_cache/
-.pytest_cache/
+*.pyo
+*.pyd
+
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+
+# Dependencies
+node_modules/
+vendor/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Dependencies
-node_modules/
-venv/
-.venv/
-.julia/
-zig*/
-target/
-.gradle/
-
-# Compressed files
+# Compression
 *.zip
 *.gz
 *.tar
@@ -60,8 +64,4 @@ target/
 *.Z
 *.lz
 *.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```

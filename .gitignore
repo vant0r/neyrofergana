@@ -1,26 +1,67 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
+# Uploads directory - likely contains user-generated content
+uploads/
 
-# Dependencies
-.venv/
-venv/
-node_modules/
-dist/
-build/
+# Environment files
+.env
+.env.local
+*.env.*
 
-# Logs and temp files
+# Logs
 *.log
+
+# Temporary files
 *.tmp
 *.swp
 
-# Environment
-.env
-.env.local
-.env.*
-
-# Editors
+# Editor/IDE files
 .vscode/
 .idea/
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cache directories
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+coverage/
+htmlcov/
+.coverage
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+.julia/
+zig*/
+target/
+.gradle/
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```
